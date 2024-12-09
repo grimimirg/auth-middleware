@@ -1,81 +1,108 @@
-# Authentication Middleware Controller
+# Auth Middleware
 
-This project provides an authentication middleware controller built with Flask and Flask-RESTful. It handles user authentication requests, allowing users to authenticate using their credentials or a refresh token.
+## Overview
 
-## Table of Contents
+The Auth Middleware is a Flask-based application that provides an authentication service. It allows users to authenticate using their credentials (username and password) or a refresh token from any source. This project has been designed to be scalable and to run atomically as a microservice. The API utilizes the `/authenticate` route to handle the authentication logic and returns appropriate responses based on the authentication outcome.
 
-- Installation
-- Usage
-- API Endpoint
-- Request Payload
-- Responses
-- Dependencies
-- License
+## Features
+
+*   User authentication using username and password.
+*   Support for refresh tokens.
 
 ## Installation
 
-To set up the project, follow these steps:
+To set up the application, follow these steps:
 
-1. Clone the repository:
-   git clone <repository-url>
-   cd <repository-directory>
-
-2. Install the required packages:
-   pip install -r requirements.txt
-
-3. Ensure you have Python 3.x installed.
+1.  **Clone the repository**:
+    
+    ```
+    git clone https://github.com/grimimirg/auth-middleware.git
+    cd auth-middleware
+    ```
+    
+2.  **Create a virtual environment** (optional but recommended):
+    
+    ```
+    python -m venv venv
+    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+    ```
+    
+3.  **Install the required packages**:
+    
+    ```
+    pip install -r requirements.txt
+    ```
+    
 
 ## Usage
 
 To run the application, execute the following command:
 
+```
 python app.py
+```
 
-The application will start on http://127.0.0.1:5000/ by default.
+The application will start on `http://127.0.0.1:5000/` by default.
 
-## API Endpoint
+## API Endpoints
 
-The authentication controller exposes the following endpoint:
+### Authenticate User
 
-- POST /authenticate: Authenticates a user based on provided credentials.
+*   **Endpoint**: `/authenticate`
+*   **Method**: `POST`
+*   **Request Body**: JSON object with the following fields:
+    *   `username` (string, required): The username or email of the user.
+    *   `password` (string, required): The password of the user.
+    *   `refresh_token` (string, optional): A refresh token for re-authentication.
 
-## Request Payload
+#### Example Request
 
-The request must include a JSON payload with the following fields:
+1.  **Username and Password**:
 
-- username (string): The username or email of the user.
-- password (string): The password of the user.
-- refresh_token (string, optional): A refresh token for re-authentication.
+   ```
+   {
+     "username": "user@example.com",
+     "password": "securepassword"
+   }
+   ```
 
-### Example Request
+2.  **Refresh Token**:
 
-{
-    "username": "user@example.com",
-    "password": "yourpassword"
-}
+   ```
+   {
+     "refresh_token": "<jwt_token>"
+   }
+   ```
 
-## Responses
+#### Responses
 
-The API will return a JSON response with an appropriate HTTP status code:
+*   **200 OK**: Successful authentication with user details.
+    *   **Response Example**:
+        
+        ```
+        {
+          "accessToken": "<Generated JWT Token>",
+          "expiresOn": ""
+          "userId": "123456789",
+          "refreshToken": "<Generated refresh JWT Token>"
+        }
+        ```
+        
+*   **400 Bad Request**: Missing required parameters if neither username/password nor refresh\_token is provided.
+    *   **Response Example**:
+        
+        ```
+        {
+          "success": false,
+          "message": "Missing required parameters."
+        }
+        ```
+        
 
-- 200 OK: Successful authentication with user details.
-- 400 Bad Request: Missing required parameters if neither username/password nor refresh_token is provided.
+## Tests
 
-### Example Response
+To run tests, execute the following command in the application root folder:
 
-TODO
-
-## Dependencies
-
-This project requires the following Python packages:
-
-- Flask
-- Flask-RESTful
-
-You can install these dependencies using pip:
-
-pip install Flask Flask-RESTful
-
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
+   ```
+   python -m unittest discover -s tests
+   ```
