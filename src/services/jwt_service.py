@@ -11,9 +11,9 @@ from datetime import datetime, timedelta
 from flask import request
 from util.secure_util import SecureUtil
 
-class JwtUtil:
+class JwtService:
     """
-    JwtUtil provides utility functions for handling JSON Web Tokens (JWT).
+    JwtService provides functions for handling JSON Web Tokens (JWT).
     
     This class includes methods for generating, parsing, and managing JWTs for user authentication.
     """

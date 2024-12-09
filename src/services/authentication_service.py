@@ -1,4 +1,4 @@
-from services.jwt_service import JwtUtil
+from services.jwt_service import JwtService
 from services.user_service import UserService
 
 from response.api_response import ApiResponse
@@ -97,4 +97,4 @@ class AuthenticationService:
             if user.password != pwd:
                 return ApiResponse.getResponse(ApiResponse.WRONG_PASSWORD)
 
-        return JwtUtil.generateAuthenticateResponse(str(user.id), user.password)
+        return JwtService.generateAuthenticateResponse(str(user.id), user.password)
