@@ -41,7 +41,7 @@ class AuthenticationController(Resource):
             return ApiResponse.getResponse(ApiResponse.MISSING_PARAMETER), 400
 
         response = self.authentication_service.authenticate(user_credentials)
-        return jsonify(response), 200
+        return response, 200
 
 api.add_resource(AuthenticationController, '/authenticate')
 

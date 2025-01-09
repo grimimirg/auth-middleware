@@ -21,5 +21,4 @@ class ApiResponse:
 
     @staticmethod
     def getResponse(body):
-          bodyJson = jsonify(body)
-          return bodyJson, bodyJson.http_code
+          return body, body.get('http_code')
