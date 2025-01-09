@@ -6,9 +6,9 @@ import json
 @dataclass
 class AuthenticateResponse:
     accessToken: str
+    refreshToken: str
     userId: Optional[int] = field(default=None)
     expiresOn: Optional[datetime] = field(default=None)
-    refreshToken: str
 
     def toJson(self):
         return json.dumps({

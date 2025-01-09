@@ -1,8 +1,8 @@
 import jwt
 import base64
 
-from user_service import UserService
-from constants_service import ConstantsService
+from services.user_service import UserService
+from services.constants_service import ConstantsService
 
 from model.authenticated_response import AuthenticateResponse
 from model.authenticated_user import AuthenticatedUser

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from typing import Collection, Optional
-from user import User
+from model.user import User
 
 @dataclass
 class AuthenticatedUser:
