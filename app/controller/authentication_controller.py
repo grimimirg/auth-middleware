@@ -1,10 +1,8 @@
-from flask import Flask, request, jsonify
-from flask_restful import Resource, Api
+from flask import request
+from flask_restful import Resource
+
 from services.authentication_service import AuthenticationService
 from response.api_response import ApiResponse
-
-app = Flask(__name__)
-api = Api(app)
 
 class AuthenticationController(Resource):
     """
@@ -42,8 +40,3 @@ class AuthenticationController(Resource):
 
         response = self.authentication_service.authenticate(user_credentials)
         return response, 200
-
-api.add_resource(AuthenticationController, '/authenticate')
-
-if __name__ == '__main__':
-    app.run(debug=True)
