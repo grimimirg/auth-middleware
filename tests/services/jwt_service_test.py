@@ -1,9 +1,9 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from src.services.jwt_service import JwtService
-from src.model.authenticated_response import AuthenticateResponse
-from src.model.authenticated_user import AuthenticatedUser
-from src.services.constants_service import ConstantsService
+from app.services.jwt_service import JwtService
+from app.model.authenticated_response import AuthenticateResponse
+from app.model.authenticated_user import AuthenticatedUser
+from app.services.constants_service import ConstantsService
 
 class JwtServiceTest(unittest.TestCase):
 

@@ -55,7 +55,7 @@ class AuthenticationService:
         tokenData = None
 
         try:
-            if userCredentials.refreshToken:
+            if hasattr(userCredentials, 'refreshToken'):
                 decodedToken = base64.b64decode(userCredentials.refreshToken).decode('utf-8')
                 tokenData = json.loads(decodedToken[15:])
             else:
@@ -63,18 +63,11 @@ class AuthenticationService:
         except Exception as e:
             return ApiResponse.getResponse(ApiResponse.INVALID_JWT_TOKEN)
 
-        decode = userCredentials.refreshToken and self.decodeToken(tokenData.get("sub"))
-        
-        user = (
-                UserService.getUserById(int(decode)) 
-                if userCredentials.refreshToken 
-                else UserService.getUserByEmail(userCredentials.username)
-            )
+        decode = decodedToken(tokenData.get("sub")) if decodedToken is not None else None
+        user = UserService.getUserById(int(decode)) if decode is not None else UserService.getUserByEmail(userCredentials.username)
 
         if user is None:
             return ApiResponse.getResponse(ApiResponse.NOT_FOUND)
-
-        userCredentials.username = user.email
 
         if user.active is None or not user.active:
             return ApiResponse.getResponse(ApiResponse.USER_NOT_ACTIVE)
@@ -82,11 +75,11 @@ class AuthenticationService:
         if user.email_verified is None or not user.email_verified:
             return ApiResponse.getResponse(ApiResponse.USER_NOT_VERIFIED)
 
-        if userCredentials.refreshToken:
-            decode = SecureUtil.decode(tokenData.get("sub"))
-            passwordChanged = self.passwordChanged(int(decode), tokenData.get("password"))
+        if hasattr(userCredentials, 'refreshToken'):
+            decodedSub = SecureUtil.decode(tokenData.get("sub"))
+            passwordChanged = self.passwordChanged(int(decodedSub), tokenData.get("password"))
 
-            if passwordChanged:
+            if passwordChanged is True:
                 return ApiResponse.getResponse(ApiResponse.WRONG_PASSWORD)
         else:
             try:

@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from src.services.authentication_service import AuthenticationService
-from src.response.api_response import ApiResponse
+from app.services.authentication_service import AuthenticationService
+from app.response.api_response import ApiResponse
 
 class AuthenticationServiceTest(unittest.TestCase):
 

@@ -1,0 +1,12 @@
+[project]
+name = "auth-middleware"
+version = "0.1.0"
+description = "Authentication Middleware"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "flask>=3.1.0",
+    "flask-restful>=0.3.10",
+    "pycryptodome>=3.21.0",
+    "pyjwt>=2.10.1",
+]
